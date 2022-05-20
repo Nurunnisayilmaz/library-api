@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Db connect **************************************************************************************************
 
 const indexRouter = require('./routes/index');
-app.use('/api', indexRouter)
+app.use('', indexRouter)
 
 
 
