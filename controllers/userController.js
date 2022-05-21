@@ -11,9 +11,21 @@ const allUsers = async (req, res) => {
 const userDetails = async (req, res) =>{
     const id  = req.params.id;
     const query = `SELECT * FROM users WHERE idusers = ${id}`
+
+    // get the past and present books from barrowed table
+    const baseQuery = `SELECT books.name, borrowedBooks.score from books LEFT JOIN borrowedBooks ON books.idbooks = borrowedBooks.book_id WHERE borrowedBooks.user_id = ${id}`
+    const givenBooks = baseQuery + " AND borrowedBooks.returnDate is not null"
+    const notGivenBooks = baseQuery + " AND borrowedBooks.returnDate is null"
+
     try {
         const rows = await sql.promise().query( query);
-        console.log(rows);
+        const pastArray = await sql.promise().query( givenBooks)
+        const presentArray = await sql.promise().query( notGivenBooks)
+
+        rows[0][0].books = {
+            past: [...pastArray[0]],
+            present: [...presentArray[0]]
+        }
         return res.status(200).json({code: 200, data:rows[0]})
 
     }catch (e) {
@@ -35,6 +47,7 @@ const borrowBook = async (req, res) =>{
     const idUser = req.params.idUser;
     const idBook = req.params.idBook;
     const query = `INSERT INTO borrowedBooks (user_id,book_id,borrowDate) VALUES (${idUser},${idBook},NOW())`
+
     try {
         const queryResult = await sql.promise().query( query);
         return res.status(201).json({code: 201, status:"Created"})
