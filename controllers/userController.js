@@ -47,6 +47,11 @@ const returnBook = async (req, res) =>{
     const idBook = req.params.idBook;
     const score = req.body.score;
 
+    //check book first if borrowed and borrowed by requested person.
+    const result = await isTaken(idBook,idUser)
+    if (!result)
+        return res.status(500).json({code: 500, message: "There is no record that provides user borrowed that book please try again"})
+
     const query = `UPDATE borrowedBooks set score = ${score} , returnDate = NOW() WHERE  user_id = ${idUser} AND book_id = ${idBook}`
     try {
         const request = await sql.promise().query( query);
@@ -56,5 +61,15 @@ const returnBook = async (req, res) =>{
     }
 }
 
+
+const isTaken = async (idBook,idUser) => {
+    const query = `SELECT * FROM borrowedBooks WHERE book_id = ${idBook} AND user_id = ${idUser} AND returnDate is null`
+    const request = await sql.promise().query(query);
+    if (request[0].length > 0){
+        return true;
+    }
+    return false;
+
+}
 
 module.exports ={allUsers,userDetails,addNewUser,borrowBook,returnBook}
