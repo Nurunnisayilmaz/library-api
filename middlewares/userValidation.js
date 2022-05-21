@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const userSchema = Joi.object().keys({
-    name: Joi.string().required()
+    username: Joi.string().required()
 }).unknown(true);
 
 const scoreSchema = Joi.object().keys({
@@ -10,11 +10,11 @@ const scoreSchema = Joi.object().keys({
 
 const validate = (param) => {
     return (req, res, next) => {
-
-        if (param.equal("user")){
-            const result = userSchema.validate(req.body)
-        }else if(param.equal("score")){
-            const result = scoreSchema.validate(req.body)
+        let result;
+        if (param === "user"){
+            result = userSchema.validate(req.body)
+        }else if(param === "score"){
+            result = scoreSchema.validate(req.body)
         }else
             return res.status(400).json({code: 400, message: 'param eror'})
 
