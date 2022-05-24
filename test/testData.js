@@ -5,12 +5,12 @@ module.exports.allUsers = {
 }
 module.exports.userDetails = {
 
-    existedId : ''
+    existedId : '1'
 
 }
 module.exports.erorUserDetails = {
 
-    existedId : ''
+    existedId : '9999999999'
 
 }
 module.exports.fakeUser = {
@@ -21,15 +21,15 @@ module.exports.fakeUser = {
 module.exports.erorUser = {}
 module.exports.borrowBook = {
 
-    existedId : '',
-    existedId2 : ''
+    existedId : '1',
+    existedId2 : '2'
 
 }
 module.exports.erorBorrowBook = {}
 module.exports.returnBook = {
 
-    existedId : '',
-    existedId2 : ''
+    existedId : '1',
+    existedId2 : '2'
 
 }
 module.exports.erorReturnBook = {}
@@ -40,12 +40,12 @@ module.exports.allBooks = {
 }
 module.exports.bookDetails = {
 
-    existedId : ''
+    existedId : '1'
 
 }
 module.exports.erorBookDetails = {
 
-    existedId : ''
+    existedId : '9999999999'
 
 }
 module.exports.fakeBook = {
